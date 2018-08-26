@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         String priceMessage = "Name: Kaptain Kunal\n";
         priceMessage = priceMessage + "Quantity: "+quantity+"\n";
         priceMessage = priceMessage + "Total : $"+price;
-        priceMessage = priceMessage + "\nThank You!";
+        priceMessage = priceMessage + "\nThank You bro!";
 
         return priceMessage;
 
