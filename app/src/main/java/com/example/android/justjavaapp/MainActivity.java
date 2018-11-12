@@ -24,6 +24,9 @@ package com.example.android.justjavaapp;
 
 
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -66,10 +69,11 @@ public class MainActivity extends AppCompatActivity {
         String priceMessage = createOrderSummary(customer_name,price, hasWhippedCream, hasChocolateTopping);
 
 
-        display(quantity);
+        //display(quantity);
 
         //displayPrice(quantity*30);
-        disPlayMessage(priceMessage);
+        //disPlayMessage(priceMessage);
+        sendEmail(priceMessage);
 
     }
 
@@ -81,6 +85,21 @@ public class MainActivity extends AppCompatActivity {
     public void decrease(View view){
         quantity += -1;
         display(quantity);
+    }
+
+    private void sendEmail(String message){
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+
+        String mail_data = "mailto:ruhshan.abir@bkash.com"+
+                "?cc=" + "" +
+                "&subject=Sample Sublect"+
+                "&body="+message;
+        emailIntent.setData(Uri.parse(mail_data));
+        try {
+            startActivity(emailIntent);
+        } catch (ActivityNotFoundException e) {
+            //TODO: Handle case where no email app is available
+        }
     }
 
     /**
