@@ -26,8 +26,10 @@ package com.example.android.justjavaapp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,10 +51,19 @@ public class MainActivity extends AppCompatActivity {
      */
     int quantity = 1;
     public void submitOrder(View view) {
-        int price = calculatePrice();
+        EditText customer_name_et = (EditText)findViewById(R.id.customer_name);
+        String customer_name = customer_name_et.getText().toString();
+
+
         CheckBox whipped_cream = (CheckBox)findViewById(R.id.whipped_cream_checkbox);
+        CheckBox chocolate_topping = (CheckBox)findViewById(R.id.chocolate_checkbox);
+
         boolean hasWhippedCream = whipped_cream.isChecked();
-        String priceMessage = createOrderSummary(price, hasWhippedCream);
+        boolean hasChocolateTopping = chocolate_topping.isChecked();
+
+        int price = calculatePrice(hasWhippedCream, hasChocolateTopping);
+
+        String priceMessage = createOrderSummary(customer_name,price, hasWhippedCream, hasChocolateTopping);
 
 
         display(quantity);
@@ -75,13 +86,22 @@ public class MainActivity extends AppCompatActivity {
     /**
      * This method displays the given quantity value on the screen.
      */
-    private int calculatePrice(){
-        return quantity * 5;
+    private int calculatePrice(boolean hasWhippedCream, boolean hasChocolateTopping){
+        int base_price = 5;
+
+        if(hasWhippedCream)
+            base_price+=1;
+
+        if(hasChocolateTopping)
+            base_price+=2;
+
+        return quantity * base_price;
     }
 
-    private String createOrderSummary(int price, boolean whipped_cream){
-        String priceMessage = "Name: Kaptain Kunal\n";
+    private String createOrderSummary(String customer_name,int price, boolean whipped_cream, boolean chocolate_topping){
+        String priceMessage = "Name: "+customer_name+"\n";
         priceMessage = priceMessage + "Added Whipped cream? " +whipped_cream +"\n";
+        priceMessage = priceMessage + "Added Chocolate Topping? " +chocolate_topping +"\n";
         priceMessage = priceMessage + "Quantity: "+quantity+"\n";
         priceMessage = priceMessage + "Total : $"+price;
         priceMessage = priceMessage + "\nThank You!";
